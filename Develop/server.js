@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
 //routing for api and html
-// require('./routing/api-routes')(app);
+require('./routing/api-routes')(app);
 require('./routing/html-routes')(app);
 
 
