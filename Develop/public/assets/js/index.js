@@ -1,7 +1,3 @@
-//get dependencies
-const express = require('express')
-
-
 
 let noteTitle;
 let noteText;

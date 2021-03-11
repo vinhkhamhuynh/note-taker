@@ -8,9 +8,10 @@ const app = express();
 //sets initial port if use host port if upload to heroku or use localhost8080
 var PORT = process.env.PORT || 8080;
 
-//set up express to handle data parsing
+//set up express to handle data parsing, middleware
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
+app.use(express.static('public'));
 
 //routing for api and html
 require('./routing/api-routes')(app);
