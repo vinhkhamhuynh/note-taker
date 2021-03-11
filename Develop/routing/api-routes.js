@@ -2,9 +2,10 @@
 //linking route to data sources
 
 // const notesData = require('../db/db.json');
-const notesData = require('../db/db.json')
+var notesData = require('../db/db.json')
 const fs = require('fs');
-const path = require('path');
+var uniqId = require('uniqid');
+
 
 //routing
 module.exports = (app) => {
@@ -12,7 +13,7 @@ module.exports = (app) => {
 
     //api get request
     //when user visit localhost:8080/api/notes... page will display JSON DATA
-    app.get('/api/notes', (req, res) => res.json(notesData));
+    app.get('/api/notes', (req, res) => res.json(JSON.parse(fs.readFileSync("./db/db.json"))));
 
 
     //api post request
@@ -21,8 +22,8 @@ module.exports = (app) => {
         // let savedNotes = JSON.parse(fs.readFileSync(notesData));
         let newNote = req.body;
         // // let uniqueId = (savedNotes.length).toString();
-
-        savedNotes.push(newNote);
+        newNote.id = uniqId();
+        notesData.push(newNote);
 
         fs.writeFileSync("./db/db.json", JSON.stringify(notesData), "utf8", (err, data) => {
             if (err) throw err;
@@ -31,4 +32,14 @@ module.exports = (app) => {
         res.json(true);
     });
 
+    //api delete notes
+    app.delete("/api/notes/:id", function (req, res) {
+        let id = req.params.id;
+        notesData.splice(notesData.indexOf(id), 1);
+
+        fs.writeFileSync("./db/db.json", JSON.stringify(notesData), "utf8", (err, data) => {
+            if (err) throw err;
+        });
+        res.json(true);
+    });
 };
