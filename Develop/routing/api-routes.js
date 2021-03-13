@@ -18,12 +18,12 @@ module.exports = (app) => {
 
     //api post request
     //when user enter title and text for notes it will push to server and save to notes data as json object
-    app.post('api/notes', (req, res) => {
+    app.post('/api/notes', (req, res) => {
         // let savedNotes = JSON.parse(fs.readFileSync(notesData));
         let newNote = req.body;
         // // let uniqueId = (savedNotes.length).toString();
-        newNote.id = uniqId();
         notesData.push(newNote);
+        newNote.id = uniqId();
 
         fs.writeFileSync("./db/db.json", JSON.stringify(notesData), "utf8", (err, data) => {
             if (err) throw err;
